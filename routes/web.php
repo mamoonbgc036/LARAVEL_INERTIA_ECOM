@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,6 +16,18 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Index');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Authantication
+
+Route::get('/login', [UserController::class, 'login'])->name('user.login');
+Route::get('/register', [UserController::class, 'register'])->name('user.register');
+Route::post('/store', [UserController::class, 'store'])->name('user.store');
+
+Route::get('/dashboard', function(){
+    return Inertia::render('Dashboard');
+});
+
+Route::get('/addProduct', function(){
+    return Inertia::render('Product/AddProduct');
 });
