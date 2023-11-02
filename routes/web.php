@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,14 +21,14 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Authantication
 
-Route::get('/login', [UserController::class, 'login'])->name('user.login');
-Route::get('/register', [UserController::class, 'register'])->name('user.register');
+Route::get('/login', [UserController::class, 'login'])->name('login');
+Route::get('/register', [UserController::class, 'register'])->name('register');
 Route::post('/store', [UserController::class, 'store'])->name('user.store');
 
-Route::get('/dashboard', function(){
-    return Inertia::render('Dashboard');
-});
 
-Route::get('/addProduct', function(){
-    return Inertia::render('Product/AddProduct');
+
+
+Route::middleware(['auth'])->group(function(){
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('product', ProductController::class);
 });

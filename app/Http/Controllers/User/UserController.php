@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -23,7 +24,14 @@ class UserController extends Controller
             'email' => 'required|email',
             'password'=>'required'
         ]);
-        User::create($attributes);
-        return to_route('home');
+        $user  = User::create($attributes);
+
+         // event(new Registered($user));
+        //without this it back to login page as dashboard routed is protected by auth middleware
+        Auth::login($user);
+        //External redirect. it take route beside get('/')
+        // return Inertia::location('/');
+        //vue redirect based on name
+        return to_route('dashboard');
     }
 }

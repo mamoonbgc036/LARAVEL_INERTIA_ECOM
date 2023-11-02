@@ -88,7 +88,7 @@
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <Link href="/addProduct" class="menu-link">
+                  <Link href="/product/create" class="menu-link">
                     <div data-i18n="Account">Add Product</div>
                   </Link>
                 </li>
