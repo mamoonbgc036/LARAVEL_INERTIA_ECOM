@@ -1,6 +1,7 @@
 <template>
+     
     <header>
-        <Link href="/">My App</Link>
+        <Link href="/">My App {{ $page.props.auth.username }}</Link>
         <input type="text">
         <Nav/>
     </header>

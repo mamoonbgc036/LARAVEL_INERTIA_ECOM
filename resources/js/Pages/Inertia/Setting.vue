@@ -1,4 +1,5 @@
 <template>
+        <Head title="Setting" />
         <h1>Setting</h1>
 </template>
 <script>

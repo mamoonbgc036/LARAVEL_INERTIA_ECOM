@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Product\ProductController;
-use App\Http\Controllers\User\UserController;
-use Illuminate\Support\Facades\Route;
+use App\Models\User;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Product\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +53,10 @@ Route::middleware(['auth'])->group(function(){
 // });
 
 Route::get('/', function(){
-    return Inertia::render('Inertia/Home');
+    $time = now()->toTimeString();
+    return Inertia::render('Inertia/Home',[
+        'time' => $time
+    ]);
 });
 
 Route::get('/setting', function(){
@@ -60,7 +64,13 @@ Route::get('/setting', function(){
 });
 
 Route::get('/user', function(){
-    return Inertia::render('Inertia/User');
+    $users = User::where(function ($query) {
+        $query->where('address->city', 'Kobymouth');
+    })->get();
+    dd($users[0]);
+    return Inertia::render('Inertia/User',[
+        'users'=>$users
+    ]);
 });
 
 Route::post('/logout', function(){
