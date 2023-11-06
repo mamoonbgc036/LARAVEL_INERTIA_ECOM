@@ -64,10 +64,10 @@ Route::get('/setting', function(){
 });
 
 Route::get('/user', function(){
-    $users = User::where(function ($query) {
-        $query->where('address->city', 'Kobymouth');
-    })->get();
-    dd($users[0]->address);
+    $users = User::paginate(10)->map(fn($user)=>[
+        'name' => $user->name
+    ]);
+    dd($users);
     return Inertia::render('Inertia/User',[
         'users'=>$users
     ]);
