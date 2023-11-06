@@ -67,7 +67,7 @@ Route::get('/user', function(){
     $users = User::where(function ($query) {
         $query->where('address->city', 'Kobymouth');
     })->get();
-    dd($users->count());
+    dd($users[0]->address);
     return Inertia::render('Inertia/User',[
         'users'=>$users
     ]);

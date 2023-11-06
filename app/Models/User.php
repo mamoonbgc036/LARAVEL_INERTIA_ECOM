@@ -36,6 +36,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function getAddressAttribute($value)
+    {
+        return json_decode($value);
+    }
+
     /**
      * The attributes that should be cast.
      *
