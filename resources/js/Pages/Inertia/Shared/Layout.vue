@@ -1,8 +1,7 @@
 <template>
      
     <header>
-        <Link href="/">My App {{ $page.props.auth.username }}</Link>
-        <input type="text">
+        <Link href="/">My App</Link>
         <Nav/>
     </header>
     <main>
@@ -17,3 +16,14 @@
         }
     }
 </script>
+<style>
+header{
+    display: flex;
+    justify-content: space-around;
+    place-items: center;
+}
+main{
+    width: 60%;
+    margin: 0 auto;
+}
+</style>

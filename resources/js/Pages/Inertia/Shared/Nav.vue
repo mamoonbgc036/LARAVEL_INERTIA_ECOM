@@ -1,5 +1,5 @@
 <template>
-    <ul>
+    <ul class="horizon">
         <li>
             <NavLink href="/" :active="$page.component=='Inertia/Home'">
                 Home
@@ -26,3 +26,9 @@ import NavLink from './NavLink.vue';
         }
     }
 </script>
+<style>
+    .horizon{
+        display: flex;
+        justify-content: space-around;
+    }
+</style>

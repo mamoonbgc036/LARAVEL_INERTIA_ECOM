@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Product\ProductController;
+use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Support\Facades\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,15 +66,42 @@ Route::get('/setting', function(){
 });
 
 Route::get('/user', function(){
-    $users = User::paginate(10)->map(fn($user)=>[
-        'name' => $user->name
+    $users = User::query()
+        ->when(Request::input('search'), function($query, $value){
+            $query->where('name', 'like', "%{$value}%");
+        })
+        ->paginate(10)
+        ->withQueryString()
+        ->through(fn($user)=>[
+        'name' => $user->name,
+        'id' => $user->id
     ]);
-    dd($users);
     return Inertia::render('Inertia/User',[
-        'users'=>$users
+        'users'=>$users,
+        'filter'=>Request::only(['search'])
     ]);
 });
 
+// Route::get('/user/{search}', function($search){
+//     dd($search);
+// });
+
 Route::post('/logout', function(){
     dd('User is logout');
+});
+
+Route::get('/user/create', function(){
+    return Inertia::render('Inertia/UserCreate');
+});
+
+Route::post('/usermake', function(){
+
+   $attributes = Request::validate([
+    'name'=>'required',
+    'email'=>'required|email',
+    'password'=>'required'
+   ]);
+
+   User::create($attributes);
+   return redirect('/user');
 });
