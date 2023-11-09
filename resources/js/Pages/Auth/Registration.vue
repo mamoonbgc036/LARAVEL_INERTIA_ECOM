@@ -5,7 +5,7 @@
           <!-- Register Card -->
           <div class="card">
             <div class="card-body">
-              <form @submit.prevent="submit" id="formAuthentication" class="mb-3">
+              <form @submit.prevent="submit" method="post" id="formAuthentication" class="mb-3">
                 <div class="mb-3">
                   <label for="username" class="form-label">Username</label>
                   <input
@@ -52,7 +52,7 @@
 
               <p class="text-center">
                 <span>Already have an account?</span>
-                <Link href="/login">
+                <Link href="/user/login">
                   <span>Sign in instead</span>
                 </Link>
               </p>
@@ -83,7 +83,7 @@
     },
     methods:{
       submit(){
-       router.post('/store',this.form)
+       router.post('/user/register',this.form)
       }
     }
   }

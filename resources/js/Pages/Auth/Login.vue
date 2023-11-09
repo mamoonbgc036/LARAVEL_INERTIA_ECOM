@@ -49,7 +49,7 @@
 
               <p class="text-center">
                 <span>New on our platform?</span>
-                <Link href="/register">
+                <Link href="/user/register">
                   <span>Create an account</span>
                 </Link>
               </p>

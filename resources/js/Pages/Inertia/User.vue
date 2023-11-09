@@ -52,7 +52,7 @@ export default{
         place-items: center;
         justify-content: space-between;
     }
-    .link a,span{
+    .link a{
         padding: 8px;
         margin: 10px;
         background-color: brown;
