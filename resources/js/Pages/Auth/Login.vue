@@ -5,13 +5,14 @@
           <!-- Register -->
           <div class="card">
             <div class="card-body">
-              <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+              <form @submit.prevent="login" id="formAuthentication" class="mb-3" method="POST">
                 <div class="mb-3">
                   <label for="email" class="form-label">Email or Username</label>
                   <input
                     type="text"
                     class="form-control"
                     id="email"
+                    v-model="form.email"
                     name="email-username"
                     placeholder="Enter your email or username"
                     autofocus
@@ -29,6 +30,7 @@
                       type="password"
                       id="password"
                       class="form-control"
+                      v-model="form.password"
                       name="password"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password"
@@ -62,9 +64,23 @@
 </template>
 <script>
   import { Link } from '@inertiajs/vue3';
+  import { router } from '@inertiajs/vue3';
   export default{
+    data(){
+      return {
+        form:{
+          email : '',
+          password : ''
+        }
+      }
+    },
     components:{
       Link
+    },
+    methods:{
+      login(){
+       this.$inertia.post('/user/login', this.form);
+      }
     }
   }
 </script>

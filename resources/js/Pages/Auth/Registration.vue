@@ -5,22 +5,25 @@
           <!-- Register Card -->
           <div class="card">
             <div class="card-body">
-              <form @submit.prevent="submit" method="post" id="formAuthentication" class="mb-3">
+              <form @submit.prevent="register" method="post" id="formAuthentication" class="mb-3">
                 <div class="mb-3">
-                  <label for="username" class="form-label">Username</label>
+                  <label for="username" class="form-label">Name</label>
                   <input
                     type="text"
                     class="form-control"
                     v-model="form.name"
                     id="username"
                     name="username"
+                    required
                     placeholder="Enter your username"
                     autofocus
                   />
+                  <p v-if="$page.props.errors.name" v-text="$page.props.errors.name" class="text-danger"></p>
                 </div>
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
-                  <input type="text" v-model="form.email" class="form-control" id="email" name="email" placeholder="Enter your email" />
+                  <input type="text" v-model="form.email" required class="form-control" id="email" name="email" placeholder="Enter your email" />
+                  <p v-if="$page.props.errors.email" v-text="$page.props.errors.email" class="text-danger"></p>
                 </div>
                 <div class="mb-3 form-password-toggle">
                   <label class="form-label" for="password">Password</label>
@@ -30,11 +33,12 @@
                       id="password"
                       class="form-control"
                       name="password"
+                      required
                       v-model="form.password"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password"
                     />
-                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                    <p v-if="$page.props.errors.password" v-text="$page.props.errors.password" class="text-danger"></p>
                   </div>
                 </div>
 
@@ -46,6 +50,7 @@
                       <a href="javascript:void(0);">privacy policy & terms</a>
                     </label>
                   </div>
+                  <p v-show="terms_warning" v-text="terms_warning" class="text-danger"></p>
                 </div>
                 <button type="submit" class="btn btn-primary d-grid w-100">Sign up</button>
               </form>
@@ -78,12 +83,17 @@
           email : '',
           password : ''
         },
-        terms : ''
+        terms : '',
+        terms_warning : ''
       }
     },
     methods:{
-      submit(){
-       router.post('/user/register',this.form)
+      register(){
+        if(this.terms){
+          router.post('/user/register',this.form)
+        } else{
+          this.terms_warning = 'please check the checkbox !!!!'
+        }
       }
     }
   }

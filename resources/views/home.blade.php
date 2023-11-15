@@ -67,11 +67,11 @@
                                 </div>
                                 <!-- Login -->
                                 <div class="login">
-                                    <a href="{{ route('login') }}"><i class="fa fa-user" aria-hidden="true"></i>
+                                    <a href="{{ route('user.login') }}"><i class="fa fa-user" aria-hidden="true"></i>
                                         <span>Login</span></a>
                                 </div>
                                 <div class="regiser">
-                                    <a href="{{ route('register') }}"><i class="fa fa-user" aria-hidden="true"></i>
+                                    <a href="{{ route('user.register') }}"><i class="fa fa-user" aria-hidden="true"></i>
                                         <span>Register</span></a>
                                 </div>
                                 <!-- Cart -->
