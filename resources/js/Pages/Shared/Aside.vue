@@ -107,9 +107,9 @@
                   </Link>
                 </li>
                 <li class="menu-item">
-                  <a href="pages-account-settings-notifications.html" class="menu-link">
+                  <Link href="/category" class="menu-link">
                     <div data-i18n="Notifications">All Category</div>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>

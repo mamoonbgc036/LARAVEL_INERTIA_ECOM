@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Category;
 
-use App\Http\Controllers\Controller;
+use Inertia\Inertia;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Inertia\Inertia;
+use Illuminate\Database\Query\IndexHint;
 
 class CategoryController extends Controller
 {
@@ -15,7 +17,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Category/CategoryIndex');
+        $categories = Category::all();
+        return Inertia::render('Category/CategoryIndex', [
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -55,7 +60,13 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $category_to_edit = Category::find($id);
+        return Inertia::render('Category/EditCategory', [
+            'category_to_edit' => [
+                'data' => $category_to_edit,
+                'image' => asset($category_to_edit->image)
+            ]
+        ]);
     }
 
     /**
@@ -63,7 +74,20 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $category_edit = Category::find($id);
+        $data = json_decode($request->data);
+        $category_edit -> name = $data->name;
+        $category_edit -> description = $data->description;
+
+        if($request->hasFile('image')){
+            if (File::exists($category_edit->image)) {
+                File::delete($category_edit->image);
+            }
+            $file_name = Storage::put('/upload/category', $request->file('image'));
+            $category_edit->image = $file_name;
+        }
+        $category_edit->save();
+        return to_route('category.index');
     }
 
     /**
