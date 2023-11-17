@@ -17,6 +17,7 @@
                     placeholder="Enter your email or username"
                     autofocus
                   />
+                  <p class="text-danger" v-show="$page.props.errors.email" v-text="$page.props.errors.email"></p>
                 </div>
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
@@ -35,8 +36,8 @@
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password"
                     />
-                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
+                  <p class="text-danger" v-show="$page.props.errors.password" v-text="$page.props.errors.password"></p>
                 </div>
                 <div class="mb-3">
                   <div class="form-check">
@@ -44,6 +45,7 @@
                     <label class="form-check-label" for="remember-me"> Remember Me </label>
                   </div>
                 </div>
+                <p class="text-danger" v-show="$page.props.errors[0]" v-text="$page.props.errors[0]"></p>
                 <div class="mb-3">
                   <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
                 </div>

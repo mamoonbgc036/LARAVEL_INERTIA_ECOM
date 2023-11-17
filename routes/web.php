@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Product\ProductController;
 
 /*
@@ -30,10 +32,12 @@ Route::get('/user/register', [RegisterController::class, 'index'])->name('user.r
 Route::post('/user/register', [RegisterController::class, 'store']);
 
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::middleware(['auth'])->group(function(){
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/logout', [LogoutController::class, 'logout']);
     Route::resource('product', ProductController::class);
+    Route::resource('category', CategoryController::class);
 });
 
 // Route::get('/', function(){

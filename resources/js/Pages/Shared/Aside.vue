@@ -95,6 +95,24 @@
                 </li>
               </ul>
             </li>
+            <li :class="dropdown.category ? 'menu-item open' : 'menu-item'">
+              <a href="javascript:void(0);" @click="OpenButton('category')" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <div data-i18n="Account Settings">Category</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <Link href="/category/create" class="menu-link">
+                    <div data-i18n="Account">Add Category</div>
+                  </Link>
+                </li>
+                <li class="menu-item">
+                  <a href="pages-account-settings-notifications.html" class="menu-link">
+                    <div data-i18n="Notifications">All Category</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
 
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Pages</span>
@@ -148,16 +166,17 @@ export default{
     data(){
         return{
             dropdown:{
-                product: false
+                product: false,
+                category : false
             }
         }
     }, 
     methods:{
         OpenButton(checker){
-            if(checker=='product'){
-                this.dropdown.product = !this.dropdown.product
-            } else{
-
+            if(checker=='category'){
+                this.dropdown.category = !this.dropdown.category             
+            } else if(checker=='product'){
+              this.dropdown.product = !this.dropdown.product
             }
         }
     }
