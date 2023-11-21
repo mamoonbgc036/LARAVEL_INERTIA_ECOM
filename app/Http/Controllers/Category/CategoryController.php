@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Query\IndexHint;
 
 class CategoryController extends Controller
 {
@@ -45,6 +44,12 @@ class CategoryController extends Controller
         }
         $category_create->save();
         return to_route('category.index');
+    }
+
+    public function get_all_categories()
+    {
+        $categories = Category::all();
+        return response()->json($categories);
     }
 
     /**

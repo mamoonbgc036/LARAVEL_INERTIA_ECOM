@@ -34,6 +34,8 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{('backend/img/favicon/favicon.ico')}}" />
 
+    <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

@@ -1,73 +1,79 @@
 <template>
-     <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
                 <!-- Basic Layout -->
                 <div class="col-xxl">
                   <div class="card mb-4">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                      <h5 class="mb-0">Basic Layout</h5>
-                      <small class="text-muted float-end">Default label</small>
-                    </div>
+                    <h2 class="text-center">Add Product</h2>
                     <div class="card-body">
-                      <form>
+                      <form @submit.prevent="add_product" method="post">
                         <div class="row mb-3">
                           <label class="col-sm-2 col-form-label" for="basic-default-name">Name</label>
                           <div class="col-sm-10">
-                            <input type="text" class="form-control" id="basic-default-name" placeholder="John Doe" />
+                            <input type="text" v-model="form.title" class="form-control" id="basic-default-name" placeholder="Red Ross" />
                           </div>
                         </div>
                         <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-company">Company</label>
+                          <label class="col-sm-2 col-form-label" for="basic-default-company">Description</label>
                           <div class="col-sm-10">
                             <input
                               type="text"
                               class="form-control"
                               id="basic-default-company"
-                              placeholder="ACME Inc."
+                              placeholder="raw from field"
+                              v-model="form.description"
                             />
                           </div>
                         </div>
                         <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-email">Email</label>
+                          <label class="col-sm-2 col-form-label" for="basic-default-email">Price</label>
                           <div class="col-sm-10">
                             <div class="input-group input-group-merge">
                               <input
                                 type="text"
                                 id="basic-default-email"
                                 class="form-control"
-                                placeholder="john.doe"
+                                placeholder="Current price"
                                 aria-label="john.doe"
                                 aria-describedby="basic-default-email2"
+                                v-model="form.price"
                               />
-                              <span class="input-group-text" id="basic-default-email2">@example.com</span>
                             </div>
-                            <div class="form-text">You can use letters, numbers & periods</div>
                           </div>
                         </div>
                         <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-phone">Phone No</label>
+                          <label class="col-sm-2 col-form-label" for="basic-default-phone">Old Price</label>
                           <div class="col-sm-10">
                             <input
                               type="text"
                               id="basic-default-phone"
                               class="form-control phone-mask"
-                              placeholder="658 799 8941"
+                              placeholder="Previous price"
                               aria-label="658 799 8941"
                               aria-describedby="basic-default-phone"
+                              v-model="form.old_price"
                             />
                           </div>
                         </div>
                         <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-message">Message</label>
-                          <div class="col-sm-10">
-                            <textarea
-                              id="basic-default-message"
-                              class="form-control"
-                              placeholder="Hi, Do you have a moment to talk Joe?"
-                              aria-label="Hi, Do you have a moment to talk Joe?"
-                              aria-describedby="basic-icon-default-message2"
-                            ></textarea>
-                          </div>
+                          <label class="col-sm-2 col-form-label" for="basic-default-phone">Category</label>
+                           <div class="col-sm-10">
+                            <select v-model="form.category_id" class="form-select" id="inputGroupSelect03" aria-label="Example select with button addon">
+                              <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+                            </select>
+                           </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="basic-default-phone">Unit</label>
+                           <div class="col-sm-10">
+                            <select v-model="form.unit" class="form-select" id="inputGroupSelect03" aria-label="Example select with button addon">
+                              <option selected="">Choose...</option>
+                              <option value="pc">pc</option>
+                            </select>
+                           </div>
+                        </div>
+                        <div class="card-body border">
+                            <!-- Example of a form that Dropzone can take over -->
+                            <div id="myId" ref="imageDropzone" class="dropzone"></div>
                         </div>
                         <div class="row justify-content-end">
                           <div class="col-sm-10">
@@ -81,11 +87,48 @@
                 <!-- Basic with Icons -->
     
               </div>
-            </div>
 </template>
 <script>
+import { Dropzone } from 'dropzone';
 import Layout from '../Layout.vue';
+import { router } from '@inertiajs/vue3';
     export default{
         layout : Layout,
+        props:{
+          categories:Object
+        },
+        data(){
+          return{
+            form:{
+              title : '',
+              description : '',
+              price : '',
+              old_price : '',
+              category_id : '',
+              unit : ''
+            }
+          }
+        },
+        mounted(){
+          const dropzone = new Dropzone('div#myId', {
+              url: '/file/post', // URL for uploading files
+              maxFilesize: 2, // Maximum file size in megabytes
+              addRemoveLinks: true, // Show remove links for uploaded files
+              autoProcessQueue: false,
+            });
+            // console.log(this.categories[0]['name']);
+        },
+        methods:{
+          add_product(){
+            let form_data = new FormData();
+            let images = this.$refs.imageDropzone.dropzone.files;
+            for (let image of images) {
+                form_data.append('images[]', image)
+            }
+
+            form_data.append('create_product_info', JSON.stringify(this.form))
+            router.post('/product', form_data);
+          }
+        }
     }
 </script>

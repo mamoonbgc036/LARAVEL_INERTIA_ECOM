@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\LoginController as AdminLoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
@@ -23,7 +24,7 @@ use App\Http\Controllers\Product\ProductController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 //Admin
-Route::get('/admin123', [LoginController::class, 'index']);
+Route::get('/admin123', [AdminLoginController::class, 'index']);
 
 
 // Authantication
@@ -41,6 +42,7 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/logout', [LogoutController::class, 'logout']);
     Route::resource('product', ProductController::class);
     Route::resource('category', CategoryController::class);
+    Route::get('/all_categories', [CategoryController::class, 'get_all_categories']);
 });
 
 // Route::get('/', function(){
