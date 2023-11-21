@@ -93,8 +93,12 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        //
+        if (File::exists($category->image)) {
+            File::delete($category->image);
+        }
+        $category->delete();
+        return to_route('category.index');
     }
 }

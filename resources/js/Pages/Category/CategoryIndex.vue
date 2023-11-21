@@ -29,7 +29,7 @@
                             <Link :href="`category/`+category.id+`/edit`"><i class="fa-solid fa-pen-to-square"></i></Link>
                           </div>
                            <div class="m-2">
-                            <Link href=""><i class="fa-regular fa-trash-can"></i></Link>
+                            <button @click="delete_category(category.id)"><i class="fa-regular fa-trash-can"></i></button>
                           </div>
                         </td>
                       </tr>
@@ -39,13 +39,18 @@
               </div>
 </template>
 <script>
-    import { Link } from '@inertiajs/vue3';
+    import { Link, router } from '@inertiajs/vue3';
 import Layout from '../Layout.vue';
     export default{
     layout: Layout,
     props: {
         categories: Array,
     },
-    components: { Link }
+    components: { Link },
+    methods:{
+      delete_category(id){
+        router.delete('/category/'+id)
+      },
+    }
 }
 </script>

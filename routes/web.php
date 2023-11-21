@@ -22,6 +22,9 @@ use App\Http\Controllers\Product\ProductController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+//Admin
+Route::get('/admin123', [LoginController::class, 'index']);
+
 
 // Authantication
 
