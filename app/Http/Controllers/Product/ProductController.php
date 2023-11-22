@@ -17,7 +17,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $get_all_products = Product::with('images:product_id,name')->latest()->paginate(3);
+        $get_all_products = Product::with('images:product_id,name','category:id,name')->latest()->paginate(3);
         return Inertia::render('Product/ProductIndex', [
             'all_proudct_with_images' => $get_all_products
         ]);
@@ -75,7 +75,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $categories = Category::all();
+        return Inertia::render('Product/EditProduct', compact('categories','product'));
     }
 
     /**
@@ -83,7 +84,25 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $productsInfo = json_decode($request->create_product_info);
+        $product->title       = $productsInfo->title;
+        $product->description = $productsInfo->description;
+        $product->price       = $productsInfo->price;
+        $product->old_price   = $productsInfo->old_price;
+        $product->category_id = $productsInfo->category_id;
+        $product->unit        = $productsInfo->unit;
+        $product->created_by        = Auth::user()->id;
+        $product->save();
+
+         if ($request->hasFile('images')) {
+            $product->images()->delete();
+            foreach($request->file('images') as $image){
+                $filename    = Storage::put('upload/product/', $image);
+                $product->images()->create([
+                    'name' => $filename
+                ]);
+            }
+        }
     }
 
     /**
@@ -91,6 +110,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+       $product->delete();
+       return redirect()->back();
     }
 }

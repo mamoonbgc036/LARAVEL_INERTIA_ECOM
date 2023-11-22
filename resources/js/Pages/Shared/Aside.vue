@@ -89,9 +89,9 @@
                   </Link>
                 </li>
                 <li class="menu-item">
-                  <a href="pages-account-settings-notifications.html" class="menu-link">
+                  <Link href="/product" class="menu-link">
                     <div data-i18n="Notifications">All Product</div>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
